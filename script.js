@@ -99,7 +99,7 @@ const player2 = {
 let chkJoinButton1 = true;
 let chkJoinButton2 = true;
 game.joinGameButton1.addEventListener("click", function () {
-  if (game.playerForm1.value.trim() !== "") {
+  if (game.playerForm1.value.trim() !== "" && chkJoinButton1 == true) {
     player1.updatePlayerName(game.playerForm1.value);
     game.addPlayer(player1);
     chkJoinButton1 = false;
@@ -110,11 +110,12 @@ game.joinGameButton2.addEventListener("click", function () {
   if (game.playerForm2.value.trim() !== "" && chkJoinButton1 == false) {
     player2.updatePlayerName(game.playerForm2.value);
     game.addPlayer(player2);
-    game.joinGameButton1.remove();
-    game.playerForm1.remove();
-    game.joinGameButton2.remove();
-    game.playerForm2.remove();
-    game.startGameButton.style.opacity = 1;
+    game.playerForm1.value = "";
+    game.playerForm2.value = "";
+    document
+      .querySelector(".input-contents")
+      .classList.add("input-contents-hide");
+
     chkJoinButton2 = false;
   }
 });
@@ -141,11 +142,23 @@ $("#play-again").on("click", function () {
 
 $("#exit-game").on("click", function () {
   game.switchScreen(".splash-screen");
+  chkJoinButton1 = true;
+  game.scoreBoard.innerHTML = "";
+  game.players = [];
+  document
+    .querySelector(".input-contents")
+    .classList.remove("input-contents-hide");
 });
 
 $("#quit").on("click", function () {
   if (!game.isRunning) {
+    chkJoinButton1 = true;
+    game.scoreBoard.innerHTML = "";
+    game.players = [];
     game.switchScreen(".splash-screen");
+    document
+      .querySelector(".input-contents")
+      .classList.remove("input-contents-hide");
   }
 });
 

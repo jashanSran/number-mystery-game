@@ -87,3 +87,7 @@ body {
 .input-name2 {
   margin-bottom: 10px;
 }
+
+.input-contents-hide {
+  display: none;
+}
