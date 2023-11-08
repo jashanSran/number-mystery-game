@@ -116,15 +116,26 @@
       <div class="content-area">
         <div class="splash-screen">
           <h2>Splash</h2>
-          <p>
-            Given enough time , I can meet any software deadline. DRY up your
-            code. Debugging is like being detective in a crime movie where you
-            are also the murderer. Programming is really fun. Debugging is like
-            being detective in a crime movie where you are also the murderer .
-            Why do it by hand in ten minutes when you can automate it in ten
-            hours? Real programmers use C since it's the easiest language to
-            spell.
-          </p>
+          <div class="input-name1">
+            <input
+              type="text"
+              id="username1"
+              name="username1"
+              placeholder="Player 0"
+              required
+            />
+            <button class="join1">Join</button>
+          </div>
+          <div class="input-name2">
+            <input
+              type="text"
+              id="username2"
+              name="username2"
+              placeholder="Player 1"
+              required
+            />
+            <button class="join2">Join</button>
+          </div>
           <button type="button" class="btn btn-success" id="start-game">
             Start Game
           </button>
@@ -137,6 +148,11 @@
             sleep. A full one. incase he gets thirsty, and an empty one, in case
             he doesn't.
           </p>
+          <div class="controls">
+            <p id="start-game">Start Game</p>
+            <p id="switch-player">Switch Player</p>
+            <p id="score-points">Score Points</p>
+          </div>
           <button type="button" class="btn btn-primary" id="play-game">
             ▶️
           </button>
