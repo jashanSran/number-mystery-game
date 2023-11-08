@@ -1,0 +1,75 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: black;
+  margin: auto;
+  min-height: 90vh;
+  width: 50%;
+  border-radius: 12px;
+  margin-top: 20px;
+  padding: 0;
+  color: white;
+}
+
+.top {
+  background-color: #ff4b91;
+  height: 8rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 5px;
+  text-align: center;
+}
+
+.game-screen,
+.game-over-screen {
+  display: none;
+}
+
+.content-area h2 {
+  margin-bottom: 10px;
+}
+
+.content-area p {
+  margin-left: 25px;
+}
+
+.content-area {
+  margin: 10px;
+  color: white;
+}
+
+#quit {
+  display: none;
+}
+
+.header-buttons {
+  text-align: right;
+}
+
+#exampleModal {
+  color: black;
+  text-align: left;
+}
+
+#exampleModal2 {
+  color: black;
+  text-align: left;
+}
+
+.modal-body {
+  line-height: 0.5em;
+}
+.modal-dialog {
+  margin: auto;
+  margin-top: 18%;
+}
