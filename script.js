@@ -43,10 +43,86 @@ const game = {
   init: function () {
     $(".game-title").text(game.title);
   },
+
+  gameBoard: document.querySelector(".playing-area"),
+  scoreBoard: document.querySelector(".player-info"),
+  playerForm1: document.querySelector("#username1"),
+  playerForm2: document.querySelector("#username2"),
+  players: [],
+  activePlayer: 1,
+  joinGameButton1: document.querySelector(".join1"),
+  joinGameButton2: document.querySelector(".join2"),
+  startGameButton: document.querySelector("#start-game"),
+  scorePointsButton: document.querySelector("#score-points"),
+  switchPlayer: document.querySelector("#switch-player"),
+  addPlayer: function (player) {
+    this.players.push(player);
+    const playerContainer = document.createElement("div");
+    playerContainer.textContent = `${player.playerName} : ${player.score}`;
+    playerContainer.id = `player-${this.players.length - 1}-score`;
+    this.scoreBoard.appendChild(playerContainer);
+  },
+
+  updatePlayerScore: function (playerIndex) {
+    const player = this.players[playerIndex];
+    const playerContainer = document.getElementById(
+      `player-${playerIndex}-score`
+    );
+    playerContainer.textContent = `${game.players[playerIndex].playerName} : ${game.players[playerIndex].score}`;
+  },
 };
 
+const player1 = {
+  playerName: "",
+  score: 0,
+  updatePlayerName: function (playerName) {
+    this.playerName = playerName;
+  },
+  updateScore: function () {
+    this.score = this.score + 1;
+    game.updatePlayerScore(0);
+  },
+};
+
+const player2 = {
+  playerName: "",
+  score: 0,
+  updatePlayerName: function (playerName) {
+    this.playerName = playerName;
+  },
+  updateScore: function () {
+    this.score = this.score + 1;
+    game.updatePlayerScore(1);
+  },
+};
+
+let chkJoinButton1 = true;
+let chkJoinButton2 = true;
+game.joinGameButton1.addEventListener("click", function () {
+  if (game.playerForm1.value.trim() !== "") {
+    player1.updatePlayerName(game.playerForm1.value);
+    game.addPlayer(player1);
+    chkJoinButton1 = false;
+  }
+});
+
+game.joinGameButton2.addEventListener("click", function () {
+  if (game.playerForm2.value.trim() !== "" && chkJoinButton1 == false) {
+    player2.updatePlayerName(game.playerForm2.value);
+    game.addPlayer(player2);
+    game.joinGameButton1.remove();
+    game.playerForm1.remove();
+    game.joinGameButton2.remove();
+    game.playerForm2.remove();
+    game.startGameButton.style.opacity = 1;
+    chkJoinButton2 = false;
+  }
+});
+
 $("#start-game").on("click", function () {
-  game.switchScreen(".game-screen");
+  if (chkJoinButton1 == false && chkJoinButton2 == false) {
+    game.switchScreen(".game-screen");
+  }
 });
 
 $("#play-game").on("click", function () {
