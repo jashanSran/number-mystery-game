@@ -23,20 +23,30 @@ const game = {
       $("#quit").hide();
     }
   },
-
+  firstDim: true,
   toggle: function () {
+    game.mainArea.style.backgroundColor = "black";
     if (this.isRunning == false) {
       this.isRunning = true;
       $(".container").css({
         border: "5px dotted yellow",
       });
-      $("#play-game").text("⏸️");
+      $("#play-game").text("Pause Game");
+
+      if (this.firstDim == true) {
+        document.getElementById(`player-${0}-score`).style.opacity = 1;
+        document.getElementById(`player-${1}-score`).style.opacity = 0.5;
+        this.firstDim = false;
+      } else if (endGameClick == true) {
+        document.getElementById(`player-${0}-score`).style.opacity = 1;
+        document.getElementById(`player-${1}-score`).style.opacity = 0.5;
+      }
     } else {
       this.isRunning = false;
       $(".container").css({
         border: "none",
       });
-      $("#play-game").text("▶️");
+      $("#play-game").text("Play Game");
     }
   },
 
@@ -45,6 +55,7 @@ const game = {
   },
 
   gameBoard: document.querySelector(".playing-area"),
+  mainArea: document.querySelector(".container"),
   scoreBoard: document.querySelector(".player-info"),
   playerForm1: document.querySelector("#username1"),
   playerForm2: document.querySelector("#username2"),
@@ -55,6 +66,13 @@ const game = {
   startGameButton: document.querySelector("#start-game"),
   scorePointsButton: document.querySelector("#score-points"),
   switchPlayer: document.querySelector("#switch-player"),
+  difficultyLevel: document.querySelector("#level-select"),
+  guessedNumber: document.querySelector("#number"),
+  secretNumEasy: Math.trunc(Math.random() * 20 + 1),
+  secretNumMedium: Math.trunc(Math.random() * 50 + 1),
+  secretNumHard: Math.trunc(Math.random() * 100 + 1),
+  levelName: document.querySelector(".level-add"),
+  checkNumberButton: document.querySelector("#check-number"),
   addPlayer: function (player) {
     this.players.push(player);
     const playerContainer = document.createElement("div");
@@ -69,6 +87,29 @@ const game = {
       `player-${playerIndex}-score`
     );
     playerContainer.textContent = `${game.players[playerIndex].playerName} : ${game.players[playerIndex].score}`;
+  },
+
+  checkNumber: function (secretNum) {
+    console.log(secretNum);
+    if (game.guessedNumber.value == secretNum) {
+      game.secretNumEasy = Math.trunc(Math.random() * 20 + 1);
+      game.secretNumMedium = Math.trunc(Math.random() * 50 + 1);
+      game.secretNumHard = Math.trunc(Math.random() * 100 + 1);
+      game.mainArea.style.backgroundColor = "blue";
+      if (game.activePlayer == 1) {
+        player1.updateScore();
+      } else {
+        player2.updateScore();
+      }
+    } else if (game.guessedNumber.value > secretNum) {
+      alert("Value too high!");
+      switchPlayerFunc();
+      game.mainArea.style.backgroundColor = "black";
+    } else {
+      alert("Value too low!");
+      switchPlayerFunc();
+      game.mainArea.style.backgroundColor = "black";
+    }
   },
 };
 
@@ -102,6 +143,8 @@ game.joinGameButton1.addEventListener("click", function () {
   if (game.playerForm1.value.trim() !== "" && chkJoinButton1 == true) {
     player1.updatePlayerName(game.playerForm1.value);
     game.addPlayer(player1);
+    game.playerForm1.classList.add("input-contents-hide");
+    game.joinGameButton1.classList.add("input-contents-hide");
     chkJoinButton1 = false;
   }
 });
@@ -110,11 +153,11 @@ game.joinGameButton2.addEventListener("click", function () {
   if (game.playerForm2.value.trim() !== "" && chkJoinButton1 == false) {
     player2.updatePlayerName(game.playerForm2.value);
     game.addPlayer(player2);
+    game.playerForm2.classList.add("input-contents-hide");
+    game.joinGameButton2.classList.add("input-contents-hide");
     game.playerForm1.value = "";
     game.playerForm2.value = "";
-    document
-      .querySelector(".input-contents")
-      .classList.add("input-contents-hide");
+    game.difficultyLevel.selectedIndex = 0;
 
     chkJoinButton2 = false;
   }
@@ -123,6 +166,15 @@ game.joinGameButton2.addEventListener("click", function () {
 $("#start-game").on("click", function () {
   if (chkJoinButton1 == false && chkJoinButton2 == false) {
     game.switchScreen(".game-screen");
+    document.getElementById(`player-${0}-score`).style.opacity = 0.5;
+    document.getElementById(`player-${1}-score`).style.opacity = 0.5;
+    if (game.difficultyLevel.value == "Easy") {
+      game.levelName.textContent += " 1 and 20.";
+    } else if (game.difficultyLevel.value == "Medium") {
+      game.levelName.textContent += " 1 and 50.";
+    } else {
+      game.levelName.textContent += " 1 and 100.";
+    }
   }
 });
 
@@ -130,9 +182,46 @@ $("#play-game").on("click", function () {
   game.toggle();
 });
 
+const switchPlayerFunc = function () {
+  if (game.activePlayer == 1) {
+    game.activePlayer = 2;
+    document.getElementById(`player-${0}-score`).style.opacity = 0.5;
+    document.getElementById(`player-${1}-score`).style.opacity = 1;
+  } else {
+    game.activePlayer = 1;
+    document.getElementById(`player-${0}-score`).style.opacity = 1;
+    document.getElementById(`player-${1}-score`).style.opacity = 0.5;
+  }
+};
+
+game.checkNumberButton.addEventListener("click", function () {
+  if (game.isRunning) {
+    if (game.guessedNumber.value.trim() != "") {
+      if (game.difficultyLevel.value == "Easy") {
+        game.checkNumber(game.secretNumEasy);
+      } else if (game.difficultyLevel.value == "Medium") {
+        game.checkNumber(game.secretNumMedium);
+      } else {
+        game.checkNumber(game.secretNumHard);
+      }
+    }
+  } else {
+    alert("Click play game button!");
+  }
+});
+let endGameClick = false;
 $("#end-game").on("click", function () {
   if (!game.isRunning) {
+    endGameClick = true;
+    player1.score = 0;
+    player2.score = 0;
+    game.updatePlayerScore(0);
+    game.updatePlayerScore(1);
+    game.activePlayer = 1;
+    document.getElementById(`player-${0}-score`).style.opacity = 0.5;
+    document.getElementById(`player-${1}-score`).style.opacity = 0.5;
     game.switchScreen(".game-over-screen");
+    game.guessedNumber.value = "";
   }
 });
 
@@ -145,9 +234,16 @@ $("#exit-game").on("click", function () {
   chkJoinButton1 = true;
   game.scoreBoard.innerHTML = "";
   game.players = [];
-  document
-    .querySelector(".input-contents")
-    .classList.remove("input-contents-hide");
+  player1.playerName = "";
+  player1.score = 0;
+  player2.playerName = "";
+  player2.score = 0;
+  game.playerForm1.classList.remove("input-contents-hide");
+  game.joinGameButton1.classList.remove("input-contents-hide");
+  game.playerForm2.classList.remove("input-contents-hide");
+  game.joinGameButton2.classList.remove("input-contents-hide");
+  game.levelName.textContent = "Guess number between";
+  game.difficultyLevel.selectedIndex = 0;
 });
 
 $("#quit").on("click", function () {
@@ -155,10 +251,17 @@ $("#quit").on("click", function () {
     chkJoinButton1 = true;
     game.scoreBoard.innerHTML = "";
     game.players = [];
+    player1.playerName = "";
+    player1.score = 0;
+    player2.playerName = "";
+    player2.score = 0;
     game.switchScreen(".splash-screen");
-    document
-      .querySelector(".input-contents")
-      .classList.remove("input-contents-hide");
+    game.playerForm1.classList.remove("input-contents-hide");
+    game.joinGameButton1.classList.remove("input-contents-hide");
+    game.playerForm2.classList.remove("input-contents-hide");
+    game.joinGameButton2.classList.remove("input-contents-hide");
+    game.levelName.textContent = "Guess number between";
+    game.difficultyLevel.selectedIndex = 0;
   }
 });
 

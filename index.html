@@ -137,6 +137,13 @@
               />
               <button class="join2">Join</button>
             </div>
+
+            <label for="level-select">Level of Difficulty: </label>
+            <select name="levels" id="level-select">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
           </div>
           <button type="button" class="btn btn-success" id="start-game">
             Start Game
@@ -145,19 +152,16 @@
 
         <div class="game-screen">
           <h2>Game</h2>
-          <p>
-            A programmer puts two glasses on his bedside table before going to
-            sleep. A full one. incase he gets thirsty, and an empty one, in case
-            he doesn't.
-          </p>
-          <div class="controls">
-            <p id="start-game">Start Game</p>
-            <p id="switch-player">Switch Player</p>
-            <p id="score-points">Score Points</p>
-          </div>
           <button type="button" class="btn btn-primary" id="play-game">
-            ▶️
+            Play Game
           </button>
+
+          <h2 class="level-add">Guess number between</h2>
+          <label for="number">Enter number: </label>
+          <input type="text" id="number" name="number" required />
+          <button type="button" class="btn btn-success" id="check-number">
+            Check number</button
+          ><br />
           <button type="button" class="btn btn-warning" id="end-game">
             End Game
           </button>

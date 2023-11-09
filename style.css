@@ -91,3 +91,11 @@ body {
 .input-contents-hide {
   display: none;
 }
+
+#start-game {
+  margin-top: 10px;
+}
+
+/* #score-points {
+  margin: 5px;
+} */
