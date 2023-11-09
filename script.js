@@ -21,6 +21,7 @@ const game = {
     } else {
       $("#customModalTrigger").show();
       $("#quit").hide();
+      this.firstDim = true;
     }
   },
   firstDim: true,
@@ -38,6 +39,7 @@ const game = {
         document.getElementById(`player-${1}-score`).style.opacity = 0.5;
         this.firstDim = false;
       } else if (endGameClick == true) {
+        endGameClick = false;
         document.getElementById(`player-${0}-score`).style.opacity = 1;
         document.getElementById(`player-${1}-score`).style.opacity = 0.5;
       }
@@ -251,6 +253,7 @@ $("#quit").on("click", function () {
     chkJoinButton1 = true;
     game.scoreBoard.innerHTML = "";
     game.players = [];
+    game.activePlayer = 1;
     player1.playerName = "";
     player1.score = 0;
     player2.playerName = "";
