@@ -10,6 +10,13 @@
       crossorigin="anonymous"
     />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Domine&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="style.css" />
 
     <title>Number Mystery Game</title>
@@ -48,7 +55,11 @@
                 ></button>
               </div>
               <div class="modal-body">
-                Enter names , select level and click play.
+                <p>Enter names.</p>
+                <p>Select level Easy = Guess number = 1 to 20</p>
+                <p>Medium = 1 to 50</p>
+                <p>Hard 1 to 100.</p>
+                <p>Click play.</p>
               </div>
               <div class="modal-footer">
                 <button
@@ -94,9 +105,11 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <p>Use the spacebar to make jump.</p>
-                <p>Avoid obstacles.</p>
-                <p>Save the galaxy.</p>
+                <p>Check your name highlighted for your turn</p>
+                <p>Type guessed number in text box.</p>
+                <p>Click check number button.</p>
+                <p>End or quit game anytime by pausing it first.</p>
+                <p>Player reaches 10 points first will be declared winner.</p>
               </div>
               <div class="modal-footer">
                 <button
@@ -169,11 +182,7 @@
 
         <div class="game-over-screen">
           <h2>Game Over</h2>
-          <p>
-            Programmer,n .Device for converting caffeine into software. C is
-            dead. Programming is really fun. DRY up your code.How many
-            Javascript frameworks are there? //Below here there be dragons.
-          </p>
+          <p class="winner"></p>
           <button type="button" class="btn btn-success" id="play-again">
             Play Again!
           </button>

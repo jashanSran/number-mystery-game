@@ -8,13 +8,17 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-image: url("images/background-img.jpg");
+  background-size: cover;
+  font-family: "Domine", serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .container {
   background-color: black;
   margin: auto;
   min-height: 90vh;
-  width: 50%;
+  width: 40%;
   border-radius: 12px;
   margin-top: 20px;
   padding: 0;
@@ -22,7 +26,7 @@ body {
 }
 
 .top {
-  background-color: #ff4b91;
+  background-color: violet;
   height: 8rem;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -96,6 +100,6 @@ body {
   margin-top: 10px;
 }
 
-/* #score-points {
-  margin: 5px;
-} */
+.hidden {
+  display: none;
+}

@@ -97,7 +97,6 @@ const game = {
       game.secretNumEasy = Math.trunc(Math.random() * 20 + 1);
       game.secretNumMedium = Math.trunc(Math.random() * 50 + 1);
       game.secretNumHard = Math.trunc(Math.random() * 100 + 1);
-      game.mainArea.style.backgroundColor = "blue";
       if (game.activePlayer == 1) {
         player1.updateScore();
       } else {
@@ -106,11 +105,37 @@ const game = {
     } else if (game.guessedNumber.value > secretNum) {
       alert("Value too high!");
       switchPlayerFunc();
-      game.mainArea.style.backgroundColor = "black";
     } else {
       alert("Value too low!");
       switchPlayerFunc();
-      game.mainArea.style.backgroundColor = "black";
+    }
+  },
+
+  winner: function () {
+    if (player1.score == 1) {
+      alert(player1.playerName + " is the winner");
+      game.isRunning == false;
+      game.toggle();
+      endGameFunc();
+      document.querySelector(".winner").textContent =
+        "Winner is " + player1.playerName;
+      document.querySelector(".container").style.backgroundImage =
+        'url("images/winner.jpg")';
+      document.querySelector(".container").style.background =
+        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/winner.jpg')";
+      document.querySelector(".container").style.backgroundSize = "cover";
+    } else if (player2.score === 1) {
+      alert(player2.playerName + " is the winner");
+      game.isRunning == false;
+      game.toggle();
+      endGameFunc();
+      document.querySelector(".winner").textContent =
+        "Winner is " + player2.playerName;
+      document.querySelector(".container").style.backgroundImage =
+        'url("images/winner.jpg")';
+      document.querySelector(".container").style.background =
+        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/winner.jpg')";
+      document.querySelector(".container").style.backgroundSize = "cover";
     }
   },
 };
@@ -160,7 +185,6 @@ game.joinGameButton2.addEventListener("click", function () {
     game.playerForm1.value = "";
     game.playerForm2.value = "";
     game.difficultyLevel.selectedIndex = 0;
-
     chkJoinButton2 = false;
   }
 });
@@ -207,12 +231,14 @@ game.checkNumberButton.addEventListener("click", function () {
         game.checkNumber(game.secretNumHard);
       }
     }
+    game.winner();
   } else {
     alert("Click play game button!");
   }
 });
 let endGameClick = false;
-$("#end-game").on("click", function () {
+
+const endGameFunc = function () {
   if (!game.isRunning) {
     endGameClick = true;
     player1.score = 0;
@@ -224,15 +250,24 @@ $("#end-game").on("click", function () {
     document.getElementById(`player-${1}-score`).style.opacity = 0.5;
     game.switchScreen(".game-over-screen");
     game.guessedNumber.value = "";
+    document.querySelector(".winner").textContent = "";
   }
+};
+$("#end-game").on("click", function () {
+  endGameFunc();
 });
 
 $("#play-again").on("click", function () {
+  document.querySelector(".container").style.backgroundImage = "";
+  document.querySelector(".container").style.backgroundColor = "black";
   game.switchScreen(".game-screen");
 });
 
 $("#exit-game").on("click", function () {
+  document.querySelector(".container").style.backgroundImage = "";
+  document.querySelector(".container").style.backgroundColor = "black";
   game.switchScreen(".splash-screen");
+
   chkJoinButton1 = true;
   game.scoreBoard.innerHTML = "";
   game.players = [];
@@ -250,6 +285,9 @@ $("#exit-game").on("click", function () {
 
 $("#quit").on("click", function () {
   if (!game.isRunning) {
+    document.querySelector(".container").style.backgroundImage = "";
+    document.querySelector(".container").style.backgroundColor = "black";
+
     chkJoinButton1 = true;
     game.scoreBoard.innerHTML = "";
     game.players = [];
