@@ -93,8 +93,16 @@ const game = {
 
   checkNumber: function (secretNum) {
     console.log(secretNum);
-    if (parseInt(game.guessedNumber.value) == secretNum) {
-      this.showAlert("Congratulations! You guessed the correct number.");
+    const isValidInput = /^\d+$/.test(game.guessedNumber.value.trim());
+    if (
+      parseInt(game.guessedNumber.value.trim()) === parseInt(secretNum) &&
+      isValidInput
+    ) {
+      this.showAlert(
+        `Nice work ${
+          game.activePlayer === 1 ? player1.playerName : player2.playerName
+        }! You guessed right number! `
+      );
       game.secretNumEasy = Math.trunc(Math.random() * 20 + 1);
       game.secretNumMedium = Math.trunc(Math.random() * 50 + 1);
       game.secretNumHard = Math.trunc(Math.random() * 100 + 1);
@@ -114,7 +122,7 @@ const game = {
       this.showAlert(
         `Value too low! ${
           game.activePlayer === 1 ? player2.playerName : player1.playerName
-        } turn`
+        }'s turn now..`
       );
       switchPlayerFunc();
     } else {
