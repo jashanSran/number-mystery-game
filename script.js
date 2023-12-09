@@ -92,7 +92,6 @@ const game = {
   },
 
   checkNumber: function (secretNum) {
-    console.log(secretNum);
     const isValidInput = /^\d+$/.test(game.guessedNumber.value.trim());
     if (
       parseInt(game.guessedNumber.value.trim()) === parseInt(secretNum) &&
@@ -144,9 +143,9 @@ const game = {
   },
 
   winner: function () {
-    if (player1.score == 3) {
+    if (player1.score == 10) {
       this.winnerAnnouncement(player1.playerName);
-    } else if (player2.score === 3) {
+    } else if (player2.score === 10) {
       this.winnerAnnouncement(player2.playerName);
     }
   },
